@@ -2,7 +2,6 @@
 // Copyright 2025-2026 Mindful Software LLC d/b/a Dartastic.io, All rights reserved.
 
 import 'package:dartastic_opentelemetry/dartastic_opentelemetry.dart';
-import 'package:dartastic_opentelemetry_api/dartastic_opentelemetry_api.dart';
 
 import 'otel_fivetran_suppression.dart';
 
@@ -78,85 +77,120 @@ Future<T> tracedFivetran<T>({
   final t = tracer ?? OTel.tracerProvider().getTracer('otel_fivetran');
   final span = t.startSpan('fivetran $operation', kind: SpanKind.client);
   try {
-    span.setStringAttribute('rpc.system', 'fivetran');
-    span.setStringAttribute('rpc.method', operation);
+    span.addAttributes(
+        OTel.attributes([OTel.attributeString('rpc.system', 'fivetran')]));
+    span.addAttributes(
+        OTel.attributes([OTel.attributeString('rpc.method', operation)]));
     final r = await invoke();
     final res = r.result;
     if (res != null) {
       if (res.account != null) {
-        span.setStringAttribute('fivetran.account', res.account!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('fivetran.account', res.account!)]));
       }
       if (res.groupId != null) {
-        span.setStringAttribute('fivetran.group.id', res.groupId!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('fivetran.group.id', res.groupId!)]));
       }
       if (res.connectorId != null) {
-        span.setStringAttribute('fivetran.connector.id', res.connectorId!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('fivetran.connector.id', res.connectorId!)]));
       }
       if (res.connectorName != null) {
-        span.setStringAttribute('fivetran.connector.name', res.connectorName!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeString('fivetran.connector.name', res.connectorName!)
+        ]));
       }
       if (res.service != null) {
-        span.setStringAttribute('fivetran.service', res.service!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('fivetran.service', res.service!)]));
       }
       if (res.serviceVersion != null) {
-        span.setStringAttribute(
-            'fivetran.service.version', res.serviceVersion!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeString('fivetran.service.version', res.serviceVersion!)
+        ]));
       }
       if (res.destinationId != null) {
-        span.setStringAttribute('fivetran.destination.id', res.destinationId!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeString('fivetran.destination.id', res.destinationId!)
+        ]));
       }
       if (res.destinationService != null) {
-        span.setStringAttribute(
-            'fivetran.destination.service', res.destinationService!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeString(
+              'fivetran.destination.service', res.destinationService!)
+        ]));
       }
       if (res.schemaName != null) {
-        span.setStringAttribute('fivetran.schema', res.schemaName!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('fivetran.schema', res.schemaName!)]));
       }
       if (res.tableName != null) {
-        span.setStringAttribute('fivetran.table', res.tableName!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('fivetran.table', res.tableName!)]));
       }
       if (res.syncMode != null) {
-        span.setStringAttribute('fivetran.sync.mode', res.syncMode!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('fivetran.sync.mode', res.syncMode!)]));
       }
       if (res.syncStatus != null) {
-        span.setStringAttribute('fivetran.sync.status', res.syncStatus!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('fivetran.sync.status', res.syncStatus!)]));
       }
       if (res.syncFrequencyMinutes != null) {
-        span.setIntAttribute(
-            'fivetran.sync.frequency_minutes', res.syncFrequencyMinutes!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeInt(
+              'fivetran.sync.frequency_minutes', res.syncFrequencyMinutes!)
+        ]));
       }
       if (res.rowsExtracted != null) {
-        span.setIntAttribute('fivetran.rows.extracted', res.rowsExtracted!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeInt('fivetran.rows.extracted', res.rowsExtracted!)
+        ]));
       }
       if (res.rowsLoaded != null) {
-        span.setIntAttribute('fivetran.rows.loaded', res.rowsLoaded!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeInt('fivetran.rows.loaded', res.rowsLoaded!)]));
       }
       if (res.bytesExtracted != null) {
-        span.setIntAttribute('fivetran.bytes.extracted', res.bytesExtracted!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeInt('fivetran.bytes.extracted', res.bytesExtracted!)
+        ]));
       }
       if (res.bytesLoaded != null) {
-        span.setIntAttribute('fivetran.bytes.loaded', res.bytesLoaded!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeInt('fivetran.bytes.loaded', res.bytesLoaded!)]));
       }
       if (res.monthlyActiveRows != null) {
-        span.setIntAttribute(
-            'fivetran.monthly_active_rows', res.monthlyActiveRows!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeInt(
+              'fivetran.monthly_active_rows', res.monthlyActiveRows!)
+        ]));
       }
       if (res.syncDurationMs != null) {
-        span.setIntAttribute('fivetran.sync.duration_ms', res.syncDurationMs!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeInt('fivetran.sync.duration_ms', res.syncDurationMs!)
+        ]));
       }
       if (res.modelRunId != null) {
-        span.setStringAttribute(
-            'fivetran.transformation.run_id', res.modelRunId!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeString(
+              'fivetran.transformation.run_id', res.modelRunId!)
+        ]));
       }
       if (res.modelRunStatus != null) {
-        span.setStringAttribute(
-            'fivetran.transformation.run_status', res.modelRunStatus!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeString(
+              'fivetran.transformation.run_status', res.modelRunStatus!)
+        ]));
       }
       if (res.statusCode != null) {
-        span.setIntAttribute('http.response.status_code', res.statusCode!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeInt('http.response.status_code', res.statusCode!)]));
       }
       if (res.errorCode != null) {
-        span.setStringAttribute('fivetran.error.code', res.errorCode!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('fivetran.error.code', res.errorCode!)]));
       }
       final fail = res.errorCode != null ||
           (res.statusCode != null && res.statusCode! >= 400) ||
@@ -164,8 +198,10 @@ Future<T> tracedFivetran<T>({
           res.syncStatus == 'broken' ||
           res.modelRunStatus == 'failed';
       if (fail) {
-        span.setStringAttribute(
-            ErrorResource.errorType.key, res.errorCode ?? 'fivetran.error');
+        span.addAttributes(OTel.attributes([
+          OTel.attributeString(
+              ErrorResource.errorType.key, res.errorCode ?? 'fivetran.error')
+        ]));
         span.setStatus(SpanStatusCode.Error, res.errorMessage);
       }
     }
